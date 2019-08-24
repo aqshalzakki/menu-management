@@ -8,11 +8,11 @@ class Auth_model extends CI_Model{
 		$this->db->insert('user', $data);
 		
 		// send email
-		$this->_sendEmail('verify');
+		$this->_sendEmail('verify', 'Email verification');
 		message('Congratulations! your account has been created. Please activate your account before 24 hours!', 'success', 'auth');
 	}
 
-	private function _sendEmail($type)
+	private function _sendEmail($type, $subject)
 	{
 		// prepare the token
 		$token = base64_encode(random_bytes(32));
@@ -40,7 +40,7 @@ class Auth_model extends CI_Model{
 		$this->email->from('ci.app22222@gmail.com', 'Codeigniter app');
 		$this->email->to($email);
 		
-		$this->email->subject('Email verification');
+		$this->email->subject($subject);
 		$this->email->message($this->_templateEmail($user_token, $type));
 
 		if ($this->email->send()) {
@@ -93,6 +93,23 @@ class Auth_model extends CI_Model{
 		}
 	}
 
+	public function run_forgot_password()
+	{
+		$email = $this->input->post('email');
+		$user = $this->db->get_where('user', ['email' => $email, 'is_active' => 1])->row_array();
+
+		// cek apakah email ada di tabel user 
+		if ($user)
+		{
+			// jalankan fungsi send email
+			$this->_sendEmail('reset_password', 'Reset password');
+			message('The password reset link has been sent to your email!', 'success', 'auth/forgotPassword');
+
+		}else{
+			message('Email is not registered or activated!', 'danger', 'auth/forgotPassword');
+		}
+	}
+
 	// untuk template email 
 	private function _templateEmail($user_token, $type)
 	{
@@ -111,7 +128,7 @@ class Auth_model extends CI_Model{
 				</body>
 				</html>
 			';
-		}else{
+		}elseif ($type == 'reset_password'){
 			return '
 				<!DOCTYPE html>
 				<html lang="en">
@@ -122,7 +139,7 @@ class Auth_model extends CI_Model{
 					<title></title>
 				</head>
 				<body>
-					<a href="helloworld">Hello world!</a>
+					Click this link to reset your password : <a href="' . base_url() . 'auth/resetPassword?email=' . $user_token['email'] . '&token=' . urlencode($user_token['token']) . '">Reset password</a>
 				</body>
 				</html>
 			';
@@ -167,6 +184,22 @@ class Auth_model extends CI_Model{
 		}else{
 			message('Email is not registered! ', 'danger', 'auth');
 		}
+	}
+
+	public function reset_password()
+	{
+		$email = $this->session->userdata('email_reset_password');
+		$password = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+
+		$this->db->set('password', $password);
+		$this->db->where('email', $email);
+		$this->db->update('user');
+
+		// hapus tokennya
+		$this->db->delete('user_token', ['email' => $email]);
+
+		$this->session->unset_userdata('email_reset_password');
+		message('Password was reset successfully!', 'success', 'auth');
 	}
 
 	public function getUserByEmail($email)

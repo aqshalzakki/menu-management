@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2019 at 11:52 PM
+-- Generation Time: Aug 24, 2019 at 08:28 PM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
@@ -44,8 +44,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `image`, `password`, `role_id`, `is_active`, `date_created`) VALUES
-(11, 'Admin', 'kecoatempur2@gmail.com', 'default.jpg', '$2y$10$vijz8507zeyOAkG.RuFuIOB8T15oXX91UQkcjnNYMTyGlH5P9TPmm', 2, 1, 1566595895),
-(12, 'aqshalzakki', 'jonitempur2@gmail.com', 'default.jpg', '$2y$10$DscDVg1hH2Lm.P3/fAJfFO7PlWiKBtO/zVtlfU2iVUrlZh6aGOC3C', 2, 1, 1566596621);
+(18, 'aqshalzakki', 'kecoatempur2@gmail.com', 'default.jpg', '$2y$10$sCiotAojcOrC6Q2y5rZHU.K7cxrGis1cl0fENCQ9eZqguF1AaFlFi', 1, 1, 1566659364),
+(21, 'jonitempur', 'jonitempur2@gmail.com', 'default.jpg', '$2y$10$LMQw8an68EttGvvNoyDdZOZBRA4lP5VnUEtKgWA28DnVM0phiXLQq', 2, 1, 1566659633);
 
 -- --------------------------------------------------------
 
@@ -89,8 +89,7 @@ CREATE TABLE `user_menu` (
 INSERT INTO `user_menu` (`id`, `menu`) VALUES
 (1, 'Admin'),
 (2, 'User'),
-(3, 'Menu'),
-(5, 'Article');
+(3, 'Menu');
 
 -- --------------------------------------------------------
 
@@ -202,7 +201,7 @@ ALTER TABLE `user_token`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `user_access_menu`
@@ -214,7 +213,7 @@ ALTER TABLE `user_access_menu`
 -- AUTO_INCREMENT for table `user_menu`
 --
 ALTER TABLE `user_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_role`
@@ -232,7 +231,7 @@ ALTER TABLE `user_sub_menu`
 -- AUTO_INCREMENT for table `user_token`
 --
 ALTER TABLE `user_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
